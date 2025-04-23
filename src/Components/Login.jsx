@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +9,13 @@ const Login = () => {
 
   const [emailId, setEmailId] = useState("rishi@gmail.com");
   const [password, setPassword] = useState("Rishi@1403");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userData = useSelector((store) => store.user);
 
   const handleLogin = async ()  => {
+    if(userData) return;
     try {
       const res = await axios.post(BASE_URL + "/login", {
         emailId,
@@ -24,7 +27,8 @@ const Login = () => {
       return navigate("/feed");
       
     } catch (err) {
-      console.log("Error - ", err);
+      if(err.status === 401) navigate("/login");
+      setError(err?.response?.data || "Something went wrong");
     }
   }
 
@@ -66,6 +70,7 @@ const Login = () => {
               />
             </label>
           </div>
+          <p className="text-red-500">{error}</p>
           <div className="card-actions justify-center">
             <button className="btn btn-primary hover:bg-purple-700" onClick={handleLogin }>Login</button>
           </div>
