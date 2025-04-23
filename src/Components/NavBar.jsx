@@ -25,7 +25,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
-        <Link to={"/"} className="btn btn-ghost text-xl">Devtinder</Link>
+        <Link to={"/"} className="btn btn-ghost text-xl text-secondary hover:text-primary">Devtinder</Link>
       </div>
       <div className="flex gap-2">
         <div className="dropdown dropdown-end">

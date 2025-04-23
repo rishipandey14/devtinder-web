@@ -34,50 +34,50 @@ const Login = () => {
 
 
   return (
-    <div className="flex justify-center">
-      <div className="card bg-base-100 w-96 shadow-sm">
-        <div className="card-body bg-base-200 my-20  border border-gray-300 shadow-lg p-6 rounded-lg w-96 ">
-          <h2 className="card-title justify-center text-2xl">Login</h2>
-
+    <div className="min-h-screen flex items-center justify-center bg-transparent px-4">
+      <div className="bg-gray-900 text-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+        <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
+        
+        <div className="space-y-4">
           <div>
-            <label className="form-control w-full max-w-xs my-2">
-              <div className="label">
-                <span className="label-text">Email: </span>
-              </div>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                className="input input-bordered w-full mb-4"
-                placeholder="Enter Email"
-                value={emailId}
-                onChange={(e) => setEmailId(e.target.value)}
-              />
-            </label>
-            
-            <label className="form-control w-full max-w-xs my-2" >
-              <div className="label">
-                <span className="label-text">Password:</span>
-              </div>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                className="input input-bordered w-full mb-6"
-                placeholder="Enter Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
+            <label htmlFor="email" className="block text-sm font-medium mb-1">Email:</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Enter your email"
+              value={emailId}
+              onChange={(e) => setEmailId(e.target.value)}
+            />
           </div>
-          <p className="text-red-500">{error}</p>
-          <div className="card-actions justify-center">
-            <button className="btn btn-primary hover:bg-purple-700" onClick={handleLogin }>Login</button>
+  
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium mb-1">Password:</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
+  
+          {error && <p className="text-red-400 text-sm">{error}</p>}
+  
+          <button
+            onClick={handleLogin}
+            className="w-full py-2 mt-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition"
+          >
+            Login
+          </button>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default Login;
