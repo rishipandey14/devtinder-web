@@ -27,7 +27,6 @@ const Login = () => {
       return navigate("/feed");
       
     } catch (err) {
-      if(err.status === 401) navigate("/login");
       setError(err?.response?.data || "Something went wrong");
     }
   }
