@@ -4,9 +4,9 @@ const UserCard = ({ user }) => {
   const { firstName, lastName, skills, about, age, gender, photoUrl } = user;
 
   return (
-    <div className="bg-gradient-to-b from-[#2e2e44] to-[#1d1d2e] rounded-xl overflow-hidden w-full max-w-sm mx-auto shadow-md shadow-white hover:shadow-pink-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 p-6 text-white space-y-4">
+    <div className="bg-gradient-to-b from-[#2e2e44] to-[#1d1d2e] rounded-xl overflow-hidden w-full max-w-sm mx-auto shadow-md shadow-white hover:shadow-pink-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 p-6 text-white space-y-4 mb-10">
       {/* Image */}
-      <div className="w-full h-60 rounded-lg overflow-hidden">
+      <div className="w-full h-52 rounded-lg overflow-hidden">
         <img
           src={photoUrl || "https://via.placeholder.com/150"}
           alt={`${firstName} ${lastName}`}
@@ -31,7 +31,7 @@ const UserCard = ({ user }) => {
       {/* About */}
       {about && (
         <p className="text-sm text-gray-300 text-center">
-          <span className="font-semibold text-white">About:</span> {about}
+          <span className="font-semibold text-white"></span> {about}
         </p>
       )}
 
@@ -61,6 +61,7 @@ const UserCard = ({ user }) => {
           🤝 Interested
         </button>
       </div>
+      
     </div>
   );
 };
