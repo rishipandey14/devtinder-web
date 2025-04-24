@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import UserCard from "./UserCard";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
@@ -10,16 +12,30 @@ const EditProfile = ({ user }) => {
   const [gender, setGender] = useState(user.gender);
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
   const [about, setAbout] = useState(user.about);
-  const [skills, setSkills] = useState(user.skills);
+  const [skillInput, setSkillInput] = useState("");
+  const [skills, setSkills] = useState(user.skills || []);
   const [error, setError] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleAddSkill = () => {
+    if (skillInput.trim()) {
+      setSkills([...skills, skillInput.trim()]);
+      setSkillInput("");
+    }
+  };
+
+  const handleRemoveSkill = (index) => {
+    setSkills(skills.filter((_, i) => i !== index));
+  };
 
   const updateProfile = async () => {
     // clear Errors
     setError("");
 
     try {
-      const res = await axios.patch(
-        BASE_URL + "profile/edit",
+      const res = await axios.put(
+        BASE_URL + "/profile/edit",
         {
           firstName,
           lastName,
@@ -29,15 +45,18 @@ const EditProfile = ({ user }) => {
           photoUrl,
           skills,
         },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
+      dispatch(addUser(res?.data?.data || res?.data));
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
     } catch (err) {
       setError(err?.response?.data);
     }
   };
-  
+
   return (
     <div className="flex justify-center items-start my-10 gap-8 px-6">
       <div className="min-h-screen flex  items-center justify-center bg-transparent w-xl px-4">
@@ -94,7 +113,9 @@ const EditProfile = ({ user }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Photo URL :</label>
+              <label className="block text-sm font-medium mb-1">
+                Photo URL :
+              </label>
               <input
                 name="photo-url"
                 className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
@@ -103,23 +124,47 @@ const EditProfile = ({ user }) => {
               />
             </div>
             <div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Skills :</label>
-              <input
-                name="skills"
-                className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
-                value={skills}
-                onChange={(e) => setSkills(e.target.value)}
-              />
-            </div>
               <div>
-                <label className="block text-sm font-medium mb-1">About :</label>
-                {/* <input
-                  name="about"
-                  className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
-                  value={about}
-                  onChange={(e) => setAbout(e.target.value)}
-                /> */}
+                <label className="block text-sm font-medium mb-1">
+                  Skills :
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={skillInput}
+                    onChange={(e) => setSkillInput(e.target.value)}
+                    className="flex-1 px-4 py-2 rounded-lg bg-gray-800 border border-gray-600"
+                    placeholder="Enter a skill"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddSkill}
+                    className="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded hover:cursor-pointer"
+                  >
+                    Add
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {skills.map((skill, index) => (
+                    <span
+                      key={index}
+                      className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                    >
+                      {skill}
+                      <button
+                        onClick={() => handleRemoveSkill(index)}
+                        className="text-white hover:text-red-300 hover:cursor-pointer"
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  About :
+                </label>
                 <textarea
                   className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                   value={about}
@@ -127,21 +172,28 @@ const EditProfile = ({ user }) => {
                 ></textarea>
               </div>
             </div>
-    
-              {error && <p className="text-red-400 text-sm">{error}</p>}
+
+            {error && <p className="text-red-400 text-sm">{error}</p>}
 
             <button
               onClick={updateProfile}
-              className="w-full py-2 mt-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition"
+              className="w-full py-2 mt-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition hover:cursor-pointer"
             >
-              Update
+              Update Profile
             </button>
           </div>
         </div>
       </div>
       <div className="flex-1 max-w-sm">
-        <UserCard user={{firstName, lastName, age, gender, photoUrl, skills, about}} />
+        <UserCard
+          user={{ firstName, lastName, age, gender, photoUrl, skills, about }}
+        />
       </div>
+      {showToast && (
+        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-green-400 text-white px-4 py-2 rounded shadow-lg">
+          Profile saved successfully.
+        </div>
+      )}
     </div>
   );
 };
