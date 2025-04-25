@@ -18,7 +18,6 @@ const NavBar = () => {
       <div className="flex gap-2">
         <div className="dropdown dropdown-end">
           {user && <div tabIndex={0} role="button" className="btn btn-ghost avatar mx-3 flex items-center"> 
-            <p className='px-4'>Welcome, {user.firstName}</p>
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
@@ -30,7 +29,8 @@ const NavBar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
             <li><Link to={"/profile"}>Profile</Link></li>
-            {/* <li><a>Settings</a></li> */}
+            <li><Link to={"/connections"}>Connections</Link></li>
+            <li><Link to={"/feed"}>Feed</Link></li>
             <li><Link to={"/logout"} onClick={onLogoutClick}>Logout</Link></li>
           </ul>
         </div>
