@@ -1,9 +1,24 @@
+import axios from "axios";
 import React from "react";
+import { BASE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import {removeUserFromFeed} from "../utils/feedSlice"
 
 const UserCard = ({ user }) => {
-  const { firstName, lastName, skills, about, age, gender, photoUrl } = user;
+  const {_id, firstName, lastName, skills, about, age, gender, photoUrl } = user;
 
-  return (
+  const dispatch = useDispatch();
+
+  const handleSendRequest = async (status, userId) => {
+    try {
+      axios.post(BASE_URL + "/request/send/" + status + "/" + userId, {}, {withCredentials: true});
+      dispatch(removeUserFromFeed(user._id));
+    } catch(err) {
+      <Error error={err} />;
+    }
+  }
+
+  return user && (
     <div className="bg-gradient-to-b from-[#2e2e44] to-[#1d1d2e] rounded-xl overflow-hidden w-full max-w-sm mx-auto shadow-md shadow-white hover:shadow-pink-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 p-6 text-white space-y-4 mb-10">
       {/* Image */}
       <div className="w-full h-52 rounded-lg overflow-hidden">
@@ -54,10 +69,16 @@ const UserCard = ({ user }) => {
 
       {/* Buttons */}
       <div className="flex justify-center gap-4 pt-2">
-        <button className="px-5 py-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900 text-white font-medium shadow-md hover:from-gray-600 hover:to-gray-800 transition duration-300 ease-in-out hover:cursor-pointer">
+        <button 
+          className="px-5 py-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900 text-white font-medium shadow-md hover:from-gray-600 hover:to-gray-800 transition duration-300 ease-in-out hover:cursor-pointer"
+          onClick={() => handleSendRequest("ignored", _id)}
+          >
           ❌ Ignore
         </button>
-        <button className="px-5 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold shadow-md hover:from-pink-600 hover:to-purple-700 transition duration-300 ease-in-out hover:cursor-pointer">
+        <button 
+          className="px-5 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold shadow-md hover:from-pink-600 hover:to-purple-700 transition duration-300 ease-in-out hover:cursor-pointer"
+          onClick={() => handleSendRequest("interested", _id)}
+        >
           🤝 Interested
         </button>
       </div>
