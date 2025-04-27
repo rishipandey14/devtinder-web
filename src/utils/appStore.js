@@ -3,6 +3,8 @@ import userReducer from "./userSlice";
 import feedReducer from "./feedSlice";
 import connectionReducer from "./connectionSlice";
 import requestsReducer from "./requestsSlice";
+import toastReducer from "./toastSlice";
+
 
 
 
@@ -12,6 +14,7 @@ const appStore = configureStore({
     feed: feedReducer,
     connections : connectionReducer,
     requests : requestsReducer,
+    toast : toastReducer,
   },
 });
 
