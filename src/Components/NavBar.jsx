@@ -2,22 +2,32 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { handleLogout } from '../utils/handleLogout';
+import { resetUserState } from '../utils/userSlice';
+import { resetConnectionState } from '../utils/connectionSlice';
+import { resetFeedState } from '../utils/feedSlice';
+import { resetRequestState } from '../utils/requestsSlice';
 
 const NavBar = () => {
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onLogoutClick = () => handleLogout(dispatch, navigate);
+  const onLogoutClick = () => {
+    handleLogout(dispatch, navigate);
+    dispatch(resetUserState());
+    dispatch(resetConnectionState());
+    dispatch(resetFeedState());
+    dispatch(resetRequestState());
+  }
 
   return (
     <div className="navbar bg-base-300 shadow-sm ">
       <div className="flex-1">
-        <Link to={"/feed"} className="btn btn-ghost text-xl text-secondary hover:text-primary">Devtinder</Link>
+        <Link to={"/"} className="btn btn-ghost text-xl text-secondary hover:text-primary">Devtinder</Link>
       </div>
       <div className="flex gap-2">
         <div className="dropdown dropdown-end">
-          {user && <div tabIndex={0} role="button" className="btn btn-ghost avatar mx-3 flex items-center"> 
+          {user &&  <div tabIndex={0} role="button" className="btn btn-ghost avatar mx-3 flex items-center"> 
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
