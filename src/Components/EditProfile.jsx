@@ -4,6 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import UserCard from "./UserCard";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { showToast } from "../utils/toastSlice";
 
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
@@ -15,7 +16,6 @@ const EditProfile = ({ user }) => {
   const [skillInput, setSkillInput] = useState("");
   const [skills, setSkills] = useState(user.skills || []);
   const [error, setError] = useState("");
-  const [showToast, setShowToast] = useState(false);
   const dispatch = useDispatch();
 
   const handleAddSkill = () => {
@@ -48,10 +48,7 @@ const EditProfile = ({ user }) => {
         { withCredentials: true }
       );
       dispatch(addUser(res?.data?.data || res?.data));
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
+      dispatch(showToast("Profile updated Successfully"))
     } catch (err) {
       setError(err?.response?.data);
     }
@@ -189,11 +186,6 @@ const EditProfile = ({ user }) => {
           user={{ firstName, lastName, age, gender, photoUrl, skills, about }}
         />
       </div>
-      {showToast && (
-        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-green-400 text-white px-4 py-2 rounded shadow-lg">
-          Profile saved successfully.
-        </div>
-      )}
     </div>
   );
 };
