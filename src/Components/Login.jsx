@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { BASE_URL } from "../utils/constants";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {showToast} from "../utils/toastSlice"
 
 const Login = () => {
@@ -11,7 +11,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  let [isLoginForm, setIsLoginForm] = useState(true);
+  const location = useLocation();
+  let [isLoginForm, setIsLoginForm] = useState(location.state?.isLoginForm ?? true);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      dispatch(addUser(res?.data?.data));
+      dispatch(addUser(res?.data));
       dispatch(showToast("Account created Successfully"))
       navigate("/profile");
     } catch (err) {
