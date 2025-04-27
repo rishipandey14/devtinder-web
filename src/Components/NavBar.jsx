@@ -11,7 +11,7 @@ const NavBar = () => {
   const onLogoutClick = () => handleLogout(dispatch, navigate);
 
   return (
-    <div className="navbar bg-base-300 shadow-sm">
+    <div className="navbar bg-base-300 shadow-sm ">
       <div className="flex-1">
         <Link to={"/feed"} className="btn btn-ghost text-xl text-secondary hover:text-primary">Devtinder</Link>
       </div>
@@ -32,7 +32,7 @@ const NavBar = () => {
             <li><Link to={"/connections"}>Connections</Link></li>
             <li><Link to={"/requests"}>Requests</Link></li>
             <li><Link to={"/feed"}>Feed</Link></li>
-            <li><Link to={"/logout"} onClick={onLogoutClick}>Logout</Link></li>
+            <li><Link to={"/"} onClick={onLogoutClick}>Logout</Link></li>
           </ul>
         </div>
       </div>
