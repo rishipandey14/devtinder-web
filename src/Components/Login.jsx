@@ -32,7 +32,6 @@ const Login = () => {
         }
       );
       dispatch(addUser(res.data));
-      console.log("Dispatching toast:", "Logged in Successfully");
       dispatch(showToast("Logged in Successfully"));
       navigate("/feed");
     } catch (err) {
