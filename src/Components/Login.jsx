@@ -13,7 +13,7 @@ const Login = () => {
   const [lastName, setLastName] = useState("");
   const location = useLocation();
   let [isLoginForm, setIsLoginForm] = useState(location.state?.isLoginForm ?? true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((store) => store.user.user);
@@ -91,7 +91,10 @@ const Login = () => {
                   className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                   placeholder="Enter your First Name"
                   value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    setError(null);
+                  }}
                 />
               </div>
               <div>
@@ -105,7 +108,10 @@ const Login = () => {
                   className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                   placeholder="Enter your Last Name"
                   value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                    setError(null);
+                  }}
                 />
               </div>
             </>
@@ -123,7 +129,10 @@ const Login = () => {
               className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
               placeholder="Enter your email"
               value={emailId}
-              onChange={(e) => setEmailId(e.target.value)}
+              onChange={(e) => {
+                setEmailId(e.target.value);
+                setError(null);
+              }}
             />
           </div>
 
@@ -142,7 +151,10 @@ const Login = () => {
               className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
               placeholder="Enter your password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError(null);
+              }}
             />
           </div>
 
@@ -161,7 +173,10 @@ const Login = () => {
               New User?{" "}
               <span
                 className="text-purple-400 hover:underline cursor-pointer"
-                onClick={() => setIsLoginForm(false)}
+                onClick={() => {
+                  setIsLoginForm(false);
+                  setError(null);
+                }}
               >
                 Signup
               </span>{" "}
@@ -172,7 +187,10 @@ const Login = () => {
               Existing User?{" "}
               <span
                 className="text-purple-400 hover:underline cursor-pointer"
-                onClick={() => setIsLoginForm(true)}
+                onClick={() => {
+                  setIsLoginForm(true);
+                  setError(null);
+                }}
               >
                 Login
               </span>{" "}
