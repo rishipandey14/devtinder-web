@@ -8,7 +8,7 @@ import { resetFeedState } from '../utils/feedSlice';
 import { resetRequestState } from '../utils/requestsSlice';
 
 const NavBar = () => {
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

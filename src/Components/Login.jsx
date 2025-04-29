@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {showToast} from "../utils/toastSlice"
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
+  const [emailId, setEmailId] = useState("rishi@gmail.com");
+  const [password, setPassword] = useState("Rishi@1403");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const location = useLocation();
@@ -16,7 +16,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector((store) => store.user);
+  const userData = useSelector((store) => store.user.user);
 
   const handleLogin = async () => {
     if (userData) return;
@@ -31,7 +31,7 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      dispatch(addUser(res.data));
+      dispatch(addUser(res.data))
       dispatch(showToast("Logged in Successfully"));
       navigate("/feed");
     } catch (err) {
