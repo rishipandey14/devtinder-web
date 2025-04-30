@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {showToast} from "../utils/toastSlice"
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("rishi@gmail.com");
-  const [password, setPassword] = useState("Rishi@1403");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const location = useLocation();
